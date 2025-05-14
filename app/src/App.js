@@ -1,22 +1,45 @@
-import logo from './logo.svg';
 import './App.css';
 import { useState } from 'react';
-import Contatore from './Contatore';
-
+import AlunniRow from './AlunniRow';
+import InserimentoAlunni from './InserimentoAlunni';
 
 function App() {
-  const [contatore, setContatore]= useState(0);
+  const [alunni, setAlunni] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-  const ac = function(){
-    setContatore(contatore + 1);
-  } 
+
+  async function caricaAlunni(){
+    setLoading(true);
+    const response = await fetch("http://localhost:8080/alunni",{method: "GET"});
+    const data = await response.json();
+    setAlunni(data);
+    setLoading(false);
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <Contatore contatore={contatore} ac={ac}/>
-        <Contatore contatore={contatore} ac={ac}/>
-      </header>
+      {loading &&
+      <div> caricamento in corso ...</div>
+      }
+      {!loading &&
+        <div>
+              {alunni.length === 0 ? 
+                  (<button onClick={caricaAlunni}> carica alunni</button>
+                  ):(
+                    <table border="1">
+                      {alunni.map(function(a){
+                        return(
+                         <AlunniRow alunno={a} caricaAlunni={caricaAlunni} />
+                        )
+                        })}
+                    </table>
+                  )}
+                <InserimentoAlunni caricaAlunni={caricaAlunni} />
+        </div>
+      }
+          
     </div>
+            
   );
 }
 
