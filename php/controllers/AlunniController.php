@@ -45,7 +45,6 @@ class AlunniController
   }
 
   public function updateAlunno (Request $request, Response $response, $args){
-    sleep(3);
     $mysqli_connection = new MySQLi('my_mariadb', 'root', 'ciccio', 'scuola');
     $body = json_decode($request->getBody()->getContents(), true);
     $id = $args['id'];
@@ -64,7 +63,7 @@ class AlunniController
   public function deleteAlunno (Request $request, Response $response, $args){
     $mysqli_connection = new MySQLi('my_mariadb', 'root', 'ciccio', 'scuola');
     $id = $args['id'];
-    $result = $mysqli_connection->query("DELETE FROM alunni WHERE id= '$id'");
+    $result = $mysqli_connection->query("DELETE FROM alunni WHERE id = '$id'");
     if($result && $mysqli_connection->affected_rows > 0){
       $response->getBody()->write(json_encode(array("message"=>"Success")));
       return $response->withHeader("Content-type", "application/json")->withStatus(200);

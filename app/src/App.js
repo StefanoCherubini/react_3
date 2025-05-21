@@ -22,18 +22,25 @@ function App() {
       <div> caricamento in corso ...</div>
       }
       {!loading &&
-        <div>
+        <div className="App">
               {alunni.length === 0 ? 
                   (<button onClick={caricaAlunni}> carica alunni</button>
                   ):(
                     <table border="1">
+                      <tr>
+                        <th>id</th>
+                        <th>Nome</th>
+                        <th>Cognome</th>
+                        <th></th>
+                      </tr>
                       {alunni.map(function(a){
                         return(
                          <AlunniRow alunno={a} caricaAlunni={caricaAlunni} />
                         )
                         })}
                     </table>
-                  )}
+                  )
+                  }
                 <InserimentoAlunni caricaAlunni={caricaAlunni} />
         </div>
       }
